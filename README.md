@@ -123,7 +123,7 @@ The test data contract (`Include/fixtures/order_data.json`):
 │   └── order_data.json         # Canonical order payload
 ├── Data Files/
 │   └── order_data.json.dat     # Katalon data-file entity (JSON driver)
-└── Library/                    # Vendored Kafka/SLF4J jars
+└── Drivers/                    # External jars on the Katalon classpath (kafka-clients)
 ```
 
 ## Notes
