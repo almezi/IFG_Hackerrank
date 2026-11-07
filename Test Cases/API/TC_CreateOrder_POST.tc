@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>POSTs the order fixture to /api/create and asserts the response echoes the order</description>
+   <name>TC_CreateOrder_POST</name>
+   <tag></tag>
+   <comment></comment>
+   <recordOption>OTHER</recordOption>
+   <testCaseGuid>DEC04BE3-DA50-4612-BD50-492B15C778C5</testCaseGuid>
+</TestCaseEntity>

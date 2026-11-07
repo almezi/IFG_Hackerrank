@@ -4,4 +4,19 @@
    <name>default</name>
    <tag></tag>
    <defaultProfile>true</defaultProfile>
+   <GlobalVariableEntity>
+      <description>Base URL of the order service</description>
+      <initValue>http://localhost:8080</initValue>
+      <name>BASE_URL</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>Kafka bootstrap servers</description>
+      <initValue>localhost:9092</initValue>
+      <name>KAFKA_BOOTSTRAP_SERVERS</name>
+   </GlobalVariableEntity>
+   <GlobalVariableEntity>
+      <description>Kafka topic for order events</description>
+      <initValue>ifg-topic</initValue>
+      <name>ORDER_TOPIC</name>
+   </GlobalVariableEntity>
 </GlobalVariableEntities>

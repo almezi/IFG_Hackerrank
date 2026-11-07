@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>GETs the created order from /api/get-order and asserts all fields match the fixture</description>
+   <name>TC_GetOrder_GET</name>
+   <tag></tag>
+   <comment></comment>
+   <recordOption>OTHER</recordOption>
+   <testCaseGuid>806A0645-4EB2-45E2-8831-CC1EB415E64E</testCaseGuid>
+</TestCaseEntity>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <TestCaseEntity>
-   <description></description>
+   <description>E2E: creates the order via /api/create, then consumes the order event from the Kafka topic and asserts it matches</description>
    <name>Test_Kafka_Listener</name>
    <tag></tag>
    <comment></comment>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestCaseEntity>
+   <description>Kafka roundtrip: produces the fixture payload to the order topic and consumes it back</description>
+   <name>TC_Kafka_Test</name>
+   <tag></tag>
+   <comment></comment>
+   <recordOption>OTHER</recordOption>
+   <testCaseGuid>ED91E841-3182-40F2-A00D-EA991030B601</testCaseGuid>
+</TestCaseEntity>

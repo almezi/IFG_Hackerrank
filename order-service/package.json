@@ -1,0 +1,13 @@
+{
+  "name": "order-service",
+  "version": "1.0.0",
+  "description": "Mock order service for IFG_Hackerrank tests: REST API + Kafka producer",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "kafkajs": "^2.2.4"
+  }
+}
