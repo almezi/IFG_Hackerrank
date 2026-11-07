@@ -27,9 +27,9 @@ import kafka.KafkaKeywords
 // publishes compact JSON, which can never contain it).
 String payload = ApiKeywords.readOrderFixture()
 
-KafkaKeywords.sendMessage(GlobalVariable.ORDER_TOPIC, payload)
+KafkaKeywords.sendMessage(GlobalVariable.KAFKA_BOOTSTRAP_SERVERS, GlobalVariable.ORDER_TOPIC, payload)
 
-String received = KafkaKeywords.consumeUntilMatch(GlobalVariable.ORDER_TOPIC, 15000, payload)
+String received = KafkaKeywords.consumeUntilMatch(GlobalVariable.KAFKA_BOOTSTRAP_SERVERS, GlobalVariable.ORDER_TOPIC, 15000, payload)
 
 assert received != null : "No message matching the produced payload found in topic ${GlobalVariable.ORDER_TOPIC}"
 

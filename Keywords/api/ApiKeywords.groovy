@@ -19,8 +19,11 @@ import com.kms.katalon.core.testobject.TestObject
 import com.kms.katalon.core.testobject.TestObjectProperty
 import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-import internal.GlobalVariable as GlobalVariable
 
+// Keyword classes take the service base URL as a parameter (passed in from the
+// test scripts) instead of reading GlobalVariable directly — Keywords compile
+// before Libs/internal/GlobalVariable.groovy in the Eclipse build, so importing
+// it here makes the project fail to build.
 public class ApiKeywords {
 
 	/**
@@ -36,9 +39,9 @@ public class ApiKeywords {
 	 * POSTs an order to the order service.
 	 */
 	@Keyword
-	static ResponseObject createOrder(String requestBody) {
+	static ResponseObject createOrder(String baseUrl, String requestBody) {
 		RequestObject request = new RestRequestObjectBuilder()
-				.withRestUrl("${GlobalVariable.BASE_URL}/api/create")
+				.withRestUrl("${baseUrl}/api/create")
 				.withRestRequestMethod('POST')
 				.withHttpHeaders([
 					new TestObjectProperty('Content-Type', ConditionType.EQUALS, 'application/json')
@@ -52,9 +55,9 @@ public class ApiKeywords {
 	 * GETs an order by id from the order service.
 	 */
 	@Keyword
-	static ResponseObject getOrder(String orderId) {
+	static ResponseObject getOrder(String baseUrl, String orderId) {
 		RequestObject request = new RestRequestObjectBuilder()
-				.withRestUrl("${GlobalVariable.BASE_URL}/api/get-order?id=${orderId}")
+				.withRestUrl("${baseUrl}/api/get-order?id=${orderId}")
 				.withRestRequestMethod('GET')
 				.build()
 		return WS.sendRequest(request)

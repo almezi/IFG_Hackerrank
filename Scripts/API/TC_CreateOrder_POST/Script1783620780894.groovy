@@ -24,7 +24,7 @@ import groovy.json.JsonSlurper
 String requestBody = ApiKeywords.readOrderFixture()
 def expected = new JsonSlurper().parseText(requestBody)
 
-def response = ApiKeywords.createOrder(requestBody)
+def response = ApiKeywords.createOrder(GlobalVariable.BASE_URL, requestBody)
 
 WS.verifyResponseStatusCode(response, 200)
 

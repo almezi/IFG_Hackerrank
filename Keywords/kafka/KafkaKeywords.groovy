@@ -13,7 +13,6 @@ import com.kms.katalon.core.testdata.TestData
 import com.kms.katalon.core.testobject.TestObject
 import com.kms.katalon.core.webservice.keyword.WSBuiltInKeywords as WS
 import com.kms.katalon.core.webui.keyword.WebUiBuiltInKeywords as WebUI
-import internal.GlobalVariable as GlobalVariable
 
 import java.time.Duration
 import java.util.Arrays
@@ -25,11 +24,15 @@ import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerRecord
 
+// Keyword classes take connection settings as parameters (passed in from the
+// test scripts) instead of reading GlobalVariable directly — Keywords compile
+// before Libs/internal/GlobalVariable.groovy in the Eclipse build, so importing
+// it here makes the project fail to build.
 public class KafkaKeywords {
 
-	private static Properties producerProps() {
+	private static Properties producerProps(String bootstrapServers) {
 		Properties props = new Properties()
-		props.put('bootstrap.servers', GlobalVariable.KAFKA_BOOTSTRAP_SERVERS)
+		props.put('bootstrap.servers', bootstrapServers)
 		props.put('key.serializer', 'org.apache.kafka.common.serialization.StringSerializer')
 		props.put('value.serializer', 'org.apache.kafka.common.serialization.StringSerializer')
 		return props
@@ -37,9 +40,9 @@ public class KafkaKeywords {
 
 	// Unique group id per run + earliest reset: the consumer always reads from
 	// the beginning of the topic regardless of previous runs.
-	private static Properties consumerProps() {
+	private static Properties consumerProps(String bootstrapServers) {
 		Properties props = new Properties()
-		props.put('bootstrap.servers', GlobalVariable.KAFKA_BOOTSTRAP_SERVERS)
+		props.put('bootstrap.servers', bootstrapServers)
 		props.put('group.id', 'katalon-consumer-' + UUID.randomUUID().toString())
 		props.put('key.deserializer', 'org.apache.kafka.common.serialization.StringDeserializer')
 		props.put('value.deserializer', 'org.apache.kafka.common.serialization.StringDeserializer')
@@ -52,8 +55,8 @@ public class KafkaKeywords {
 	 * Sends a raw string message to a Kafka topic.
 	 */
 	@Keyword
-	static void sendMessage(String topic, String message) {
-		KafkaProducer<String, String> producer = new KafkaProducer<>(producerProps())
+	static void sendMessage(String bootstrapServers, String topic, String message) {
+		KafkaProducer<String, String> producer = new KafkaProducer<>(producerProps(bootstrapServers))
 		try {
 			producer.send(new ProducerRecord<String, String>(topic, message))
 			producer.flush()
@@ -68,9 +71,9 @@ public class KafkaKeywords {
 	 * everything it saw (as raw strings).
 	 */
 	@Keyword
-	static List<String> consumeMessages(String topic, long timeoutMs) {
+	static List<String> consumeMessages(String bootstrapServers, String topic, long timeoutMs) {
 		List<String> messages = new ArrayList<String>()
-		KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProps())
+		KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProps(bootstrapServers))
 		long deadline = System.currentTimeMillis() + timeoutMs
 		try {
 			consumer.subscribe(Arrays.asList(topic))
@@ -92,9 +95,9 @@ public class KafkaKeywords {
 	 * (or the timeout expires). Returns the matching message string or null.
 	 */
 	@Keyword
-	static String consumeUntilMatch(String topic, long timeoutMs, String mustContain) {
+	static String consumeUntilMatch(String bootstrapServers, String topic, long timeoutMs, String mustContain) {
 		String matched = null
-		KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProps())
+		KafkaConsumer<String, String> consumer = new KafkaConsumer<>(consumerProps(bootstrapServers))
 		long deadline = System.currentTimeMillis() + timeoutMs
 		try {
 			consumer.subscribe(Arrays.asList(topic))

@@ -25,11 +25,11 @@ import kafka.KafkaKeywords
 String requestBody = ApiKeywords.readOrderFixture()
 def expected = new JsonSlurper().parseText(requestBody)
 
-def response = ApiKeywords.createOrder(requestBody)
+def response = ApiKeywords.createOrder(GlobalVariable.BASE_URL, requestBody)
 WS.verifyResponseStatusCode(response, 200)
 
 // 2. Consume the order event from the Kafka topic
-String event = KafkaKeywords.consumeUntilMatch(GlobalVariable.ORDER_TOPIC, 15000, expected.order_id as String)
+String event = KafkaKeywords.consumeUntilMatch(GlobalVariable.KAFKA_BOOTSTRAP_SERVERS, GlobalVariable.ORDER_TOPIC, 15000, expected.order_id as String)
 
 assert event != null : "No order event for ${expected.order_id} found in topic ${GlobalVariable.ORDER_TOPIC}"
 
